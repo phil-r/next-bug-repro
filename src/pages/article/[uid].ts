@@ -1,8 +1,11 @@
-import { GetStaticPaths, GetStaticProps } from "next";
+import ArticlePage from "@/components/ArticlePage";
+import { GetStaticPaths, GetStaticProps, PreviewData } from "next";
 
 export const getStaticProps: GetStaticProps<{ uid: string }> = ({
-  params,
+  params, previewData
 }) => {
+  console.log('previewData', previewData);
+  
   // over simplification, also not async and stupid typing
   const result: { notFound: true } | { props: { uid: string } } =
     params?.uid === "awesome"
@@ -17,12 +20,9 @@ export const getStaticPaths: GetStaticPaths<{
 }> = async () => ({
   paths: ["awesome"].map((category) => ({
     params: { uid: category },
+    // previewData: 'awesomeData'
   })),
   fallback: false,
 });
 
-const CategoryPage: React.FC<{ uid: string }> = (props) => {
-  return <h1>{props.uid}</h1>;
-};
-
-export default CategoryPage;
+export default ArticlePage
